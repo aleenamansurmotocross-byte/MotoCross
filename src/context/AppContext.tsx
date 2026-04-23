@@ -22,6 +22,26 @@ const defaultStats: StatsData = { experience: 7, wins: 18, podiums: 65, races: 8
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+// Helper to sort custom date strings like "11th April", "03rd May", etc.
+const parseRaceDate = (dateStr: string) => {
+  if (!dateStr) return 9999;
+  const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  const lowerStr = dateStr.toLowerCase();
+  const monthIdx = months.findIndex(m => lowerStr.includes(m));
+  
+  if (monthIdx === -1) return 9999;
+  
+  const dayMatch = dateStr.match(/\d+/);
+  const day = dayMatch ? parseInt(dayMatch[0], 10) : 0;
+  
+  // Creates a sortable number, e.g. April 11 -> 311, May 3 -> 403
+  return monthIdx * 100 + day;
+};
+
+const sortRaces = (races: RaceEvent[]) => {
+  return [...races].sort((a, b) => parseRaceDate(a.date) - parseRaceDate(b.date));
+};
+
 export function AppProvider({ children }: { children: ReactNode }) {
   const [stats, setStatsState] = useState<StatsData>(defaultStats);
   const [races, setRaces] = useState<RaceEvent[]>([]);
@@ -33,13 +53,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const fetchAll = async () => {
       const [{ data: statsData }, { data: racesData }, { data: achData }, { data: mediaData }] = await Promise.all([
         supabase.from('site_stats').select('*').single(),
-        supabase.from('races').select('*').order('date', { ascending: true }),
+        supabase.from('races').select('*'),
         supabase.from('achievements').select('*').order('year', { ascending: false }),
         supabase.from('media').select('*').order('created_at', { ascending: false })
       ]);
 
       if (statsData) setStatsState(statsData as StatsData);
-      if (racesData) setRaces(racesData as RaceEvent[]);
+      if (racesData) setRaces(sortRaces(racesData as RaceEvent[]));
       if (achData) setAchievements(achData as Achievement[]);
       if (mediaData) setMedia(mediaData.map(m => ({ ...m, progress: 100 })) as MediaFile[]);
     };
@@ -54,8 +74,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
     const racesSub = supabase.channel('races-changes')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'races' }, () => {
-        supabase.from('races').select('*').order('date', { ascending: true }).then(({ data }) => {
-          if (data) setRaces(data as RaceEvent[]);
+        supabase.from('races').select('*').then(({ data }) => {
+          if (data) setRaces(sortRaces(data as RaceEvent[]));
         });
       }).subscribe();
 
