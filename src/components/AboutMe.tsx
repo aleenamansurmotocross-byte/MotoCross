@@ -48,7 +48,7 @@ export function AboutMe() {
               <img 
                 src={aboutImage} 
                 alt="Aleena Mansur Profile" 
-                className="w-full h-auto object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                className="w-full h-auto object-cover group-hover:scale-105 transition-all duration-700"
                 referrerPolicy="no-referrer"
               />
             </div>

@@ -62,6 +62,7 @@ export function Contact() {
                 Join The <span className="neon-cyan-text">Paddock</span>
               </h2>
               <p className="text-gray-400 text-lg mb-10 leading-relaxed font-light">
+                <strong className="text-white font-bold block mb-2">Interested in sponsorship opportunities?</strong>
                 Partnerships, sponsorships, or media inquiries. Get in touch to align with India's fastest rising motocross talent.
               </p>
 
