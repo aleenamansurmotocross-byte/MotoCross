@@ -1,10 +1,12 @@
-import { motion } from 'motion/react';
-import { ArrowRight, Image as ImageIcon } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ArrowRight, Image as ImageIcon, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { useState, useEffect } from 'react';
 
 export function HomeGallery() {
   const { media } = useApp();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   
   // Get up to 5 actual uploaded images
   const activeMedia = media.filter(m => m.progress === 100);
@@ -22,6 +24,15 @@ export function HomeGallery() {
   const displayImages = Array.from({ length: 5 }).map((_, i) => {
     return activeMedia[i] ? activeMedia[i].url : fallbacks[i % fallbacks.length];
   });
+
+  // Close modal on escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedImage(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
     <section id="gallery" className="py-24 relative z-20 bg-dark-bg border-t border-white/5">
@@ -63,7 +74,8 @@ export function HomeGallery() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="relative h-64 md:h-80 overflow-hidden group rounded-xl border border-white/5 glass-card"
+              onClick={() => setSelectedImage(src)}
+              className="relative h-64 md:h-80 overflow-hidden group rounded-xl border border-white/5 glass-card cursor-zoom-in"
             >
               <img 
                 src={src} 
@@ -95,6 +107,37 @@ export function HomeGallery() {
           </Link>
         </motion.div>
       </div>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 sm:p-6 md:p-12 backdrop-blur-sm cursor-zoom-out"
+          >
+            <button 
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-6 right-6 text-white hover:text-cyan transition-colors bg-charcoal/50 p-2 rounded-full border border-white/10 hover:border-cyan glow-cyan z-50"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <motion.img
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              src={selectedImage}
+              alt="Fullscreen gallery view"
+              className="w-[80vw] h-[80vh] object-contain drop-shadow-2xl rounded-sm"
+              referrerPolicy="no-referrer"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
