@@ -51,7 +51,7 @@ export function Events() {
               <div className="relative h-60 overflow-hidden">
                 <div className="absolute inset-0 bg-dark-bg/20 z-10 transition-opacity group-hover:opacity-0" />
                 <img 
-                  src={placeholderImages[i % placeholderImages.length]} 
+                  src={event.image_url || placeholderImages[i % placeholderImages.length]} 
                   alt={event.name} 
                   className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
                   referrerPolicy="no-referrer"

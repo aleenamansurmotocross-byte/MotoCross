@@ -1,9 +1,12 @@
 import { Canvas } from '@react-three/fiber';
+import { Navbar } from '../components/Navbar';
 import { Hero } from '../components/Hero';
+import { AboutMe } from '../components/AboutMe';
+import { Sponsors } from '../components/Sponsors';
 import { Stats } from '../components/Stats';
 import { Timeline } from '../components/Timeline';
+import { HomeGallery } from '../components/HomeGallery';
 import { Events } from '../components/Events';
-import { Sponsors } from '../components/Sponsors';
 import { Contact } from '../components/Contact';
 import { ThreeBackground } from '../components/ThreeBackground';
 import { Link } from 'react-router-dom';
@@ -21,10 +24,13 @@ export function Portfolio() {
       </div>
 
       {/* Foreground Content */}
+      <Navbar />
       <Hero />
+      <AboutMe />
       <Sponsors />
       <Stats />
       <Timeline />
+      <HomeGallery />
       <Events />
       <Contact />
 

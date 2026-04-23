@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 
+// List of sponsors to be displayed in the marquee
 const SPONSORS = [
   'ALIGNED AUTOMATION',
   'HUSQVARNA',
@@ -11,15 +12,15 @@ const SPONSORS = [
 ];
 
 export function Sponsors() {
-  // Duplicate array slightly for a seamless scroll
+  // Duplicate array slightly for a seamless infinite scroll effect
   const duplicatedSponsors = [...SPONSORS, ...SPONSORS, ...SPONSORS];
 
   return (
     <section className="py-20 relative z-20 border-y border-white/5 bg-charcoal/80 overflow-hidden">
-      <div className="container mx-auto px-6 mb-8">
-        <h3 className="text-center text-sm font-bold uppercase tracking-[0.2em] text-gray-400">
-          Powered By Industry Leaders
-        </h3>
+      <div className="container mx-auto px-6 mb-12">
+        <h2 className="text-center text-3xl md:text-4xl font-black italic uppercase display-text">
+          <span className="text-gray-500">Sponsored</span> <span className="text-white">By</span>
+        </h2>
       </div>
       
       <div className="relative flex whitespace-nowrap">
@@ -39,10 +40,10 @@ export function Sponsors() {
           {duplicatedSponsors.map((sponsor, i) => (
             <div 
               key={i} 
-              className="px-12 flex items-center justify-center opacity-50 hover:opacity-100 transition-opacity duration-300"
+              className="px-16 flex items-center justify-center opacity-40 hover:opacity-100 transition-all duration-500 cursor-pointer group"
             >
-              <span className="text-3xl md:text-5xl font-black uppercase text-transparent bg-clip-text"
-                    style={{ WebkitTextStroke: '1px rgba(255,255,255,0.6)' }}
+              <span className="text-4xl md:text-6xl font-black italic display-text uppercase text-transparent bg-clip-text group-hover:neon-cyan-text group-hover:text-cyan transition-all duration-500"
+                    style={{ WebkitTextStroke: '2px var(--theme-text-stroke)', WebkitTextFillColor: 'transparent' }}
               >
                 {sponsor}
               </span>

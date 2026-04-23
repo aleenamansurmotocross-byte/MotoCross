@@ -1,17 +1,57 @@
 @import "tailwindcss";
 
+:root {
+  /* Default Dark Mode (Moto-Rally Aesthetic) */
+  --theme-bg: #050505;
+  --theme-surface: #1a1a1a;
+  --theme-text: #f3f4f6;
+  --theme-text-gray-300: #d1d5db;
+  --theme-text-gray-400: #9ca3af;
+  --theme-text-gray-500: #6b7280;
+  --theme-border: rgba(255, 255, 255, 0.1);
+  --theme-glass-bg: rgba(255, 255, 255, 0.03);
+  --theme-glass-border: rgba(255, 255, 255, 0.08);
+  --theme-text-stroke: rgba(255, 255, 255, 0.4);
+  --theme-cyan: #22d3ee;
+  --theme-orange: #f97316;
+}
+
+.light {
+  /* Light Mode Overrides */
+  --theme-bg: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --theme-surface: rgba(255, 255, 255, 0.7);
+  --theme-text: #0f172a;
+  --theme-text-gray-300: #334155;
+  --theme-text-gray-400: #475569;
+  --theme-text-gray-500: #64748b;
+  --theme-border: rgba(0, 0, 0, 0.1);
+  --theme-glass-bg: rgba(255, 255, 255, 0.6);
+  --theme-glass-border: rgba(0, 0, 0, 0.08);
+  --theme-text-stroke: rgba(0, 0, 0, 0.3);
+  --theme-cyan: #0284c7;
+  --theme-orange: #ea580c;
+}
+
 @theme {
   --font-sans: "Helvetica Neue", Arial, sans-serif;
   --font-display: "Arial Black", Gadget, sans-serif;
-  --color-dark-bg: #050505;
-  --color-charcoal: #1a1a1a;
-  --color-cyan: #22d3ee;
-  --color-neon-orange: #f97316;
+  --color-dark-bg: var(--theme-bg);
+  --color-charcoal: var(--theme-surface);
+  --color-white: var(--theme-text);
+  --color-gray-300: var(--theme-text-gray-300);
+  --color-gray-400: var(--theme-text-gray-400);
+  --color-gray-500: var(--theme-text-gray-500);
+  --color-cyan: var(--theme-cyan);
+  --color-neon-orange: var(--theme-orange);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--color-dark-bg);
-  color: #f3f4f6;
+  background: var(--theme-bg);
+  color: var(--theme-text);
   font-family: var(--font-sans);
   overflow-x: hidden;
 }
@@ -31,10 +71,10 @@ h1, h2, h3, h4, .display-text {
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--theme-glass-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--theme-glass-border);
   border-radius: 12px;
 }
 
@@ -68,4 +108,9 @@ h1, h2, h3, h4, .display-text {
   opacity: 0.04;
   mix-blend-mode: color-dodge;
   z-index: 50;
+}
+
+.light .noise-bg::before {
+  mix-blend-mode: multiply;
+  opacity: 0.03;
 }

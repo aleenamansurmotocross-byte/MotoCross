@@ -1,9 +1,13 @@
 import { motion } from 'motion/react';
-import { Target, Trophy, ChevronsRight } from 'lucide-react';
+import { Target, Trophy, ChevronsRight, ArrowRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { Link } from 'react-router-dom';
+import { FALLBACK_ACHIEVEMENTS } from '../data/achievements';
 
 export function Timeline() {
-  const { achievements } = useApp();
+  // Use the hardcoded list provided by the user to ensure it always displays correctly
+  const displayAchievements = FALLBACK_ACHIEVEMENTS;
+  const recentAchievements = displayAchievements.slice(0, 5);
 
   return (
     <section className="py-32 relative z-20">
@@ -25,7 +29,7 @@ export function Timeline() {
               </p>
 
               <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/20 before:to-transparent">
-                {achievements.map((item, i) => (
+                {recentAchievements.map((item, i) => (
                   <motion.div
                     key={item.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -46,6 +50,21 @@ export function Timeline() {
                   </motion.div>
                 ))}
               </div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-12 text-center md:text-left"
+              >
+                <Link 
+                  to="/achievements" 
+                  className="inline-flex items-center gap-2 glass-card hover:bg-white/10 transition-all duration-300 py-4 px-8 uppercase text-sm tracking-wider font-bold text-cyan border border-cyan/50 glow-cyan rounded-sm"
+                >
+                  View All Achievements <ArrowRight className="w-4 h-4" />
+                </Link>
+              </motion.div>
             </motion.div>
           </div>
 

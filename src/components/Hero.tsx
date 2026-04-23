@@ -61,10 +61,10 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
             className="flex flex-wrap gap-4"
           >
-            <Link to="/gallery" className="bg-cyan hover:bg-white transition-all duration-300 text-black font-bold py-4 px-8 uppercase text-sm tracking-wider flex items-center gap-2 group skew-velocity glow-cyan">
+            <a href="#gallery" className="bg-cyan hover:bg-white transition-all duration-300 text-black font-bold py-4 px-8 uppercase text-sm tracking-wider flex items-center gap-2 group skew-velocity glow-cyan">
               <span className="unskew-velocity">View Gallery</span>
               <ChevronRight className="w-4 h-4 unskew-velocity group-hover:translate-x-1 transition-transform" />
-            </Link>
+            </a>
             <a href="#events" className="glass-card hover:bg-white/10 transition-all duration-300 py-4 px-8 uppercase text-sm tracking-wider font-semibold group skew-velocity border border-cyan text-cyan block flex justify-center items-center">
               <span className="unskew-velocity block">Upcoming Events</span>
             </a>

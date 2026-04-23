@@ -3,7 +3,7 @@ import { supabase } from '../supabase';
 
 // Shared Types
 export type StatsData = { experience: number; wins: number; podiums: number; races: number };
-export type RaceEvent = { id: string; name: string; location: string; date: string; status: 'Confirmed' | 'TBD' };
+export type RaceEvent = { id: string; name: string; location: string; date: string; status: 'Confirmed' | 'TBD'; image_url?: string };
 export type Achievement = { id: string; year: string; rank: string; eventName: string; category: string };
 export type MediaFile = { id: string; url: string; file?: File; progress: number; featured: boolean; tag: string };
 
