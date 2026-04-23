@@ -1,12 +1,12 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, Image as ImageIcon, X } from 'lucide-react';
+import { ArrowRight, Image as ImageIcon, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { useState, useEffect } from 'react';
 
 export function HomeGallery() {
   const { media } = useApp();
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   
   // Get up to 5 actual uploaded images
   const activeMedia = media.filter(m => m.progress === 100);
@@ -25,14 +25,31 @@ export function HomeGallery() {
     return activeMedia[i] ? activeMedia[i].url : fallbacks[i % fallbacks.length];
   });
 
-  // Close modal on escape key
+  const handleNext = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex + 1) % displayImages.length);
+    }
+  };
+
+  const handlePrev = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex - 1 + displayImages.length) % displayImages.length);
+    }
+  };
+
+  // Handle keyboard events
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedImage(null);
+      if (selectedIndex === null) return;
+      if (e.key === 'Escape') setSelectedIndex(null);
+      if (e.key === 'ArrowRight') handleNext();
+      if (e.key === 'ArrowLeft') handlePrev();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [selectedIndex, displayImages.length]);
 
   return (
     <section id="gallery" className="py-24 relative z-20 bg-dark-bg border-t border-white/5">
@@ -74,7 +91,7 @@ export function HomeGallery() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              onClick={() => setSelectedImage(src)}
+              onClick={() => setSelectedIndex(i)}
               className="relative h-64 md:h-80 overflow-hidden group rounded-xl border border-white/5 glass-card cursor-zoom-in"
             >
               <img 
@@ -110,31 +127,51 @@ export function HomeGallery() {
 
       {/* Lightbox Modal */}
       <AnimatePresence>
-        {selectedImage && (
+        {selectedIndex !== null && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedImage(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 sm:p-6 md:p-12 backdrop-blur-sm cursor-zoom-out"
+            onClick={() => setSelectedIndex(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 sm:p-6 md:p-12 backdrop-blur-md cursor-zoom-out"
           >
             <button 
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-6 right-6 text-white hover:text-cyan transition-colors bg-charcoal/50 p-2 rounded-full border border-white/10 hover:border-cyan glow-cyan z-50"
+              onClick={(e) => { e.stopPropagation(); setSelectedIndex(null); }}
+              className="absolute top-6 right-6 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-50"
             >
               <X className="w-6 h-6" />
             </button>
+            
+            <button
+              onClick={handlePrev}
+              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-50"
+            >
+              <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+            </button>
+
             <motion.img
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              key={selectedIndex}
+              initial={{ opacity: 0, scale: 0.95, x: 20 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              exit={{ opacity: 0, scale: 0.95, x: -20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              src={selectedImage}
+              src={displayImages[selectedIndex]}
               alt="Fullscreen gallery view"
-              className="w-[80vw] h-[80vh] object-contain drop-shadow-2xl rounded-sm"
+              className="w-full max-w-[90vw] h-[80vh] object-contain drop-shadow-2xl rounded-sm"
               referrerPolicy="no-referrer"
               onClick={(e) => e.stopPropagation()}
             />
+
+            <button
+              onClick={handleNext}
+              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-50"
+            >
+              <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
+            </button>
+            
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 font-mono text-sm tracking-widest bg-charcoal/80 px-4 py-2 rounded-full border border-white/10">
+              {selectedIndex + 1} / {displayImages.length}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,24 +1,41 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, ExternalLink, X } from 'lucide-react';
+import { ArrowLeft, ExternalLink, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { useState, useEffect } from 'react';
 
 export function Gallery() {
   const { media } = useApp();
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   
   // Filter only fully uploaded pictures
   const activeMedia = media.filter(m => m.progress === 100);
 
-  // Close modal on escape key
+  const handleNext = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex + 1) % activeMedia.length);
+    }
+  };
+
+  const handlePrev = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex - 1 + activeMedia.length) % activeMedia.length);
+    }
+  };
+
+  // Close modal on escape key and handle arrow keys
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedImage(null);
+      if (selectedIndex === null) return;
+      if (e.key === 'Escape') setSelectedIndex(null);
+      if (e.key === 'ArrowRight') handleNext();
+      if (e.key === 'ArrowLeft') handlePrev();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [selectedIndex, activeMedia.length]);
 
   return (
     <div className="noise-bg min-h-screen bg-dark-bg text-white relative">
@@ -55,8 +72,8 @@ export function Gallery() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              onClick={() => setSelectedImage(item.url)}
-              className={`glass-card overflow-hidden group cursor-pointer relative h-80 rounded-xl ${item.featured ? 'border border-cyan glow-cyan' : ''}`}
+              onClick={() => setSelectedIndex(idx)}
+              className={`glass-card overflow-hidden group cursor-pointer relative h-80 rounded-xl cursor-zoom-in ${item.featured ? 'border border-cyan glow-cyan' : ''}`}
             >
               <img 
                 src={item.url} 
@@ -83,31 +100,58 @@ export function Gallery() {
 
       {/* Lightbox Modal */}
       <AnimatePresence>
-        {selectedImage && (
+        {selectedIndex !== null && activeMedia[selectedIndex] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedImage(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 sm:p-6 md:p-12 backdrop-blur-sm cursor-zoom-out"
+            onClick={() => setSelectedIndex(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 sm:p-6 md:p-12 backdrop-blur-md cursor-zoom-out"
           >
             <button 
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-6 right-6 text-white hover:text-cyan transition-colors bg-charcoal/50 p-2 rounded-full border border-white/10 hover:border-cyan glow-cyan z-50"
+              onClick={(e) => { e.stopPropagation(); setSelectedIndex(null); }}
+              className="absolute top-6 right-6 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-50"
             >
               <X className="w-6 h-6" />
             </button>
+
+            {activeMedia.length > 1 && (
+              <button
+                onClick={handlePrev}
+                className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-50"
+              >
+                <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+              </button>
+            )}
+
             <motion.img
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              key={selectedIndex}
+              initial={{ opacity: 0, scale: 0.95, x: 20 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              exit={{ opacity: 0, scale: 0.95, x: -20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              src={selectedImage}
+              src={activeMedia[selectedIndex].url}
               alt="Fullscreen gallery view"
-              className="w-[80vw] h-[80vh] object-contain drop-shadow-2xl rounded-sm"
+              className="w-full max-w-[90vw] h-[80vh] object-contain drop-shadow-2xl rounded-sm"
               referrerPolicy="no-referrer"
               onClick={(e) => e.stopPropagation()}
             />
+
+            {activeMedia.length > 1 && (
+              <button
+                onClick={handleNext}
+                className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-50"
+              >
+                <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
+              </button>
+            )}
+            
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 font-mono text-sm tracking-widest bg-charcoal/80 px-4 py-2 rounded-full border border-white/10 flex flex-col items-center gap-1">
+              <span>{selectedIndex + 1} / {activeMedia.length}</span>
+              {activeMedia[selectedIndex].tag && (
+                <span className="text-white text-xs">{activeMedia[selectedIndex].tag}</span>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
