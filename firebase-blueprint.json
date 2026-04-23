@@ -1,0 +1,72 @@
+{
+  "entities": {
+    "Stats": {
+      "title": "Stats",
+      "description": "Global telemetry stats",
+      "type": "object",
+      "properties": {
+        "experience": { "type": "number", "minimum": 0 },
+        "wins": { "type": "number", "minimum": 0 },
+        "podiums": { "type": "number", "minimum": 0 },
+        "races": { "type": "number", "minimum": 0 }
+      },
+      "required": ["experience", "wins", "podiums", "races"]
+    },
+    "Race": {
+      "title": "Race Event",
+      "description": "Upcoming or past race event",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "location": { "type": "string", "maxLength": 100 },
+        "date": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["Confirmed", "TBD"] },
+        "order": { "type": "number" }
+      },
+      "required": ["name", "location", "date", "status"]
+    },
+    "Achievement": {
+      "title": "Achievement",
+      "description": "Athlete achievement",
+      "type": "object",
+      "properties": {
+        "year": { "type": "string", "maxLength": 4 },
+        "rank": { "type": "string", "maxLength": 50 },
+        "eventName": { "type": "string", "maxLength": 100 },
+        "category": { "type": "string", "maxLength": 50 },
+        "order": { "type": "number" }
+      },
+      "required": ["year", "rank", "eventName", "category"]
+    },
+    "Media": {
+      "title": "Media Item",
+      "description": "Photos and videos for the gallery",
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "maxLength": 1000 },
+        "featured": { "type": "boolean" },
+        "tag": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["url", "featured", "tag", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/site/stats": {
+      "schema": { "$ref": "#/entities/Stats" },
+      "description": "Global user stats document"
+    },
+    "/races/{raceId}": {
+      "schema": { "$ref": "#/entities/Race" },
+      "description": "List of race events"
+    },
+    "/achievements/{achievementId}": {
+      "schema": { "$ref": "#/entities/Achievement" },
+      "description": "List of historical achievements"
+    },
+    "/media/{mediaId}": {
+      "schema": { "$ref": "#/entities/Media" },
+      "description": "Uploaded media pit items"
+    }
+  }
+}

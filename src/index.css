@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Arial Black", Gadget, sans-serif;
+  --color-dark-bg: #050505;
+  --color-charcoal: #1a1a1a;
+  --color-cyan: #22d3ee;
+  --color-neon-orange: #f97316;
+}
+
+body {
+  background-color: var(--color-dark-bg);
+  color: #f3f4f6;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .display-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+}
+
+.glow-cyan {
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+}
+.glow-orange {
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.skew-velocity {
+  transform: skewX(-6deg);
+}
+
+.unskew-velocity {
+  transform: skewX(6deg);
+}
+
+.neon-cyan-text {
+  color: var(--color-cyan);
+  text-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
+}
+
+.neon-orange-text {
+  color: var(--color-neon-orange);
+  text-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
+}
+
+.noise-bg {
+  position: relative;
+}
+.noise-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  mix-blend-mode: color-dodge;
+  z-index: 50;
+}

@@ -1,0 +1,94 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    function isSignedIn() { return request.auth != null; }
+    function isAdmin() { 
+      let isDev = request.auth.token.email == 'moska3981@gmail.com';
+      let isClient = exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+      return isSignedIn() && request.auth.token.email_verified == true && (isDev || isClient); 
+    }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    
+    function isValidAdmin(data) {
+      return data.keys().hasAll(['email', 'addedAt']) &&
+             data.email is string && data.email.size() <= 100 &&
+             data.addedAt is number;
+    }
+    
+    match /admins/{emailId} {
+      allow read: if isAdmin();
+      allow list: if isAdmin();
+      allow create: if isAdmin() && isValidAdmin(incoming());
+      allow update: if false; // Just delete and recreate
+      allow delete: if isAdmin() && emailId != 'moska3981@gmail.com';
+    }
+    
+    function isValidStats(data) {
+      return data.keys().hasAll(['experience', 'wins', 'podiums', 'races']) &&
+             data.experience is number && data.experience >= 0 &&
+             data.wins is number && data.wins >= 0 &&
+             data.podiums is number && data.podiums >= 0 &&
+             data.races is number && data.races >= 0;
+    }
+    
+    match /site/stats {
+      allow read: if true;
+      allow create: if isAdmin() && isValidStats(incoming());
+      allow update: if isAdmin() && isValidStats(incoming());
+    }
+    
+    function isValidRace(data) {
+       return data.keys().hasAll(['name', 'location', 'date', 'status']) &&
+              data.name is string && data.name.size() <= 100 &&
+              data.location is string && data.location.size() <= 100 &&
+              data.date is string && data.date.size() <= 50 &&
+              data.status is string && (data.status == 'Confirmed' || data.status == 'TBD');
+    }
+
+    match /races/{raceId} {
+      allow read: if true;
+      allow list: if true;
+      allow create: if isAdmin() && isValidId(raceId) && isValidRace(incoming());
+      allow update: if isAdmin() && isValidId(raceId) && isValidRace(incoming());
+      allow delete: if isAdmin() && isValidId(raceId);
+    }
+    
+    function isValidAchievement(data) {
+      return data.keys().hasAll(['year', 'rank', 'eventName', 'category']) &&
+             data.year is string && data.year.size() <= 4 &&
+             data.rank is string && data.rank.size() <= 50 &&
+             data.eventName is string && data.eventName.size() <= 100 &&
+             data.category is string && data.category.size() <= 50;
+    }
+
+    match /achievements/{achievementId} {
+      allow read: if true;
+      allow list: if true;
+      allow create: if isAdmin() && isValidId(achievementId) && isValidAchievement(incoming());
+      allow update: if isAdmin() && isValidId(achievementId) && isValidAchievement(incoming());
+      allow delete: if isAdmin() && isValidId(achievementId);
+    }
+    
+    function isValidMedia(data) {
+      return data.keys().hasAll(['url', 'featured', 'tag', 'createdAt']) &&
+             data.url is string && data.url.size() <= 1000 &&
+             data.featured is bool &&
+             data.tag is string && data.tag.size() <= 50 &&
+             data.createdAt is number;
+    }
+
+    match /media/{mediaId} {
+      allow read: if true;
+      allow list: if true;
+      allow create: if isAdmin() && isValidId(mediaId) && isValidMedia(incoming());
+      allow update: if isAdmin() && isValidId(mediaId) && isValidMedia(incoming());
+      allow delete: if isAdmin() && isValidId(mediaId);
+    }
+  }
+}
