@@ -2,11 +2,9 @@ import { motion } from 'motion/react';
 import { ArrowLeft, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { FALLBACK_ACHIEVEMENTS } from '../data/achievements';
-
 export function Achievements() {
-  // Use the hardcoded list provided by the user to ensure it always displays correctly
-  const displayAchievements = FALLBACK_ACHIEVEMENTS;
+  const { achievements } = useApp();
+  const displayAchievements = achievements;
 
   return (
     <div className="noise-bg min-h-screen bg-dark-bg text-white">

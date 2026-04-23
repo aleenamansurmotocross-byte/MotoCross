@@ -2,12 +2,9 @@ import { motion } from 'motion/react';
 import { Target, Trophy, ChevronsRight, ArrowRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Link } from 'react-router-dom';
-import { FALLBACK_ACHIEVEMENTS } from '../data/achievements';
-
 export function Timeline() {
-  // Use the hardcoded list provided by the user to ensure it always displays correctly
-  const displayAchievements = FALLBACK_ACHIEVEMENTS;
-  const recentAchievements = displayAchievements.slice(0, 5);
+  const { achievements } = useApp();
+  const recentAchievements = achievements.slice(0, 5);
 
   return (
     <section className="py-32 relative z-20">
