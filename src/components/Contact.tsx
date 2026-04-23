@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, ArrowRight } from 'lucide-react';
+import { Mail, ArrowRight, Phone, Instagram, Youtube } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export function Contact() {
@@ -65,16 +65,46 @@ export function Contact() {
                 Partnerships, sponsorships, or media inquiries. Get in touch to align with India's fastest rising motocross talent.
               </p>
 
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 group cursor-pointer">
-                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-cyan group-hover:glow-cyan transition-all duration-300">
+              <div className="space-y-8">
+                <a href="mailto:Mansur.Shaikhs@icloud.com" className="flex items-center gap-4 group cursor-pointer w-fit">
+                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-cyan group-hover:glow-cyan transition-all duration-300 bg-black/20">
                     <Mail className="w-5 h-5 text-gray-300 group-hover:text-cyan transition-colors" />
                   </div>
                   <div>
-                    <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">Direct Line</div>
-                    <div className="text-lg font-medium">contact@aleenamansur.com</div>
+                    <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">Email</div>
+                    <div className="text-lg font-medium hover:text-cyan transition-colors">Mansur.Shaikhs@icloud.com</div>
                   </div>
-                </div>
+                </a>
+
+                <a href="tel:+919916786786" className="flex items-center gap-4 group cursor-pointer w-fit">
+                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-neon-orange group-hover:glow-neon-orange transition-all duration-300 bg-black/20">
+                    <Phone className="w-5 h-5 text-gray-300 group-hover:text-neon-orange transition-colors" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">Direct Line</div>
+                    <div className="text-lg font-medium hover:text-neon-orange transition-colors">+91 9916786786</div>
+                  </div>
+                </a>
+
+                <a href="https://www.youtube.com/@aleenamansur9030" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group cursor-pointer w-fit">
+                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-red-500 transition-all duration-300 shadow-[0_0_15px_rgba(239,68,68,0)] group-hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] bg-black/20">
+                    <Youtube className="w-5 h-5 text-gray-300 group-hover:text-red-500 transition-colors" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">YouTube</div>
+                    <div className="text-lg font-medium hover:text-red-500 transition-colors">@aleenamansur9030</div>
+                  </div>
+                </a>
+
+                <a href="https://www.instagram.com/aleena.mansur/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group cursor-pointer w-fit">
+                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-pink-500 transition-all duration-300 shadow-[0_0_15px_rgba(236,72,153,0)] group-hover:shadow-[0_0_15px_rgba(236,72,153,0.5)] bg-black/20">
+                    <Instagram className="w-5 h-5 text-gray-300 group-hover:text-pink-500 transition-colors" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">Instagram</div>
+                    <div className="text-lg font-medium hover:text-pink-500 transition-colors">@aleena.mansur</div>
+                  </div>
+                </a>
               </div>
             </motion.div>
           </div>
