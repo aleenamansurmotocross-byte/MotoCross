@@ -8,8 +8,8 @@ export function HomeGallery() {
   const { media } = useApp();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   
-  // Get up to 5 actual uploaded images
-  const activeMedia = media.filter(m => m.progress === 100);
+  // Get up to 5 actual uploaded images, excluding specific system tags like 'about-me'
+  const activeMedia = media.filter(m => m.progress === 100 && m.tag !== 'about-me');
   
   // Fallback images to ensure we always have exactly 5 for the grid
   const fallbacks = [

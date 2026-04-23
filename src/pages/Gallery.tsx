@@ -8,8 +8,8 @@ export function Gallery() {
   const { media } = useApp();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   
-  // Filter only fully uploaded pictures
-  const activeMedia = media.filter(m => m.progress === 100);
+  // Filter only fully uploaded pictures and exclude system tags like 'about-me'
+  const activeMedia = media.filter(m => m.progress === 100 && m.tag !== 'about-me');
 
   const handleNext = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();

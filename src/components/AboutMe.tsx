@@ -1,7 +1,13 @@
 import { motion } from 'motion/react';
 import { Target, Zap, Flag, Trophy } from 'lucide-react';
+import { useApp } from '../context/AppContext';
 
 export function AboutMe() {
+  const { media } = useApp();
+  
+  // Find the image tagged specifically for the about section, fallback to default
+  const aboutImage = media.find(m => m.tag === 'about-me')?.url || '/images/gallery_1.jpg';
+
   const infoCards = [
     { label: 'Bike', value: 'Husqvarna TC85', icon: Zap, color: 'neon-cyan-text', borderColor: 'border-cyan/30' },
     { label: 'Category', value: '85cc Juniors SX-2', icon: Target, color: 'text-white', borderColor: 'border-white/10' },
@@ -40,7 +46,7 @@ export function AboutMe() {
             <div className="absolute inset-0 bg-gradient-to-tr from-cyan/20 to-neon-orange/20 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
             <div className="relative glass-card rounded-2xl overflow-hidden border border-white/10 glow-cyan">
               <img 
-                src="/images/gallery_1.jpg" 
+                src={aboutImage} 
                 alt="Aleena Mansur Profile" 
                 className="w-full h-auto object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                 referrerPolicy="no-referrer"
