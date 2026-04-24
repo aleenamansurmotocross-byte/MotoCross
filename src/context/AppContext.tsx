@@ -6,6 +6,7 @@ export type StatsData = { experience: number; wins: number; podiums: number; rac
 export type RaceEvent = { id: string; name: string; location: string; date: string; status: 'Confirmed' | 'TBD'; image_url?: string };
 export type Achievement = { id: string; year: string; rank: string; eventName: string; category: string };
 export type MediaFile = { id: string; url: string; file?: File; progress: number; featured: boolean; tag: string };
+export type Sponsor = { id: string; name?: string; logo: string; link?: string; created_at?: string };
 
 interface AppContextType {
   stats: StatsData;
@@ -16,6 +17,8 @@ interface AppContextType {
   setAchievements: React.Dispatch<React.SetStateAction<Achievement[]>>;
   media: MediaFile[];
   setMedia: React.Dispatch<React.SetStateAction<MediaFile[]>>;
+  sponsors: Sponsor[];
+  setSponsors: React.Dispatch<React.SetStateAction<Sponsor[]>>;
 }
 
 const defaultStats: StatsData = { experience: 7, wins: 18, podiums: 65, races: 83 };
@@ -47,21 +50,24 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [races, setRaces] = useState<RaceEvent[]>([]);
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [media, setMedia] = useState<MediaFile[]>([]);
+  const [sponsors, setSponsors] = useState<Sponsor[]>([]);
 
   useEffect(() => {
     // Initial Fetches
     const fetchAll = async () => {
-      const [{ data: statsData }, { data: racesData }, { data: achData }, { data: mediaData }] = await Promise.all([
+      const [{ data: statsData }, { data: racesData }, { data: achData }, { data: mediaData }, { data: sponsorsData }] = await Promise.all([
         supabase.from('site_stats').select('*').single(),
         supabase.from('races').select('*'),
         supabase.from('achievements').select('*').order('year', { ascending: false }),
-        supabase.from('media').select('*').order('created_at', { ascending: false })
+        supabase.from('media').select('*').order('created_at', { ascending: false }),
+        supabase.from('sponsors').select('*').order('created_at', { ascending: true })
       ]);
 
       if (statsData) setStatsState(statsData as StatsData);
       if (racesData) setRaces(sortRaces(racesData as RaceEvent[]));
       if (achData) setAchievements(achData as Achievement[]);
       if (mediaData) setMedia(mediaData.map(m => ({ ...m, progress: 100 })) as MediaFile[]);
+      if (sponsorsData) setSponsors(sponsorsData as Sponsor[]);
     };
 
     fetchAll();
@@ -93,11 +99,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
         });
       }).subscribe();
 
+    const sponsorsSub = supabase.channel('sponsors-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'sponsors' }, () => {
+        supabase.from('sponsors').select('*').order('created_at', { ascending: true }).then(({ data }) => {
+          if (data) setSponsors(data as Sponsor[]);
+        });
+      }).subscribe();
+
     return () => {
       supabase.removeChannel(statsSub);
       supabase.removeChannel(racesSub);
       supabase.removeChannel(achSub);
       supabase.removeChannel(mediaSub);
+      supabase.removeChannel(sponsorsSub);
     };
   }, []);
 
@@ -109,7 +123,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AppContext.Provider value={{ stats, setStats, races, setRaces, achievements, setAchievements, media, setMedia }}>
+    <AppContext.Provider value={{ stats, setStats, races, setRaces, achievements, setAchievements, media, setMedia, sponsors, setSponsors }}>
       {children}
     </AppContext.Provider>
   );

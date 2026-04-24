@@ -15,6 +15,7 @@ import { RaceCalendar } from './modules/RaceCalendar';
 import { MediaPit } from './modules/MediaPit';
 import { Achievements } from './modules/Achievements';
 import { AdminManager } from './modules/AdminManager';
+import { SponsorManager } from './modules/SponsorManager';
 import { AdminLogin } from './AdminLogin';
 
 export function AdminDashboard() {
@@ -66,6 +67,7 @@ export function AdminDashboard() {
     { name: 'Telemetry', path: '/admin', icon: Activity, end: true },
     { name: 'Race Calendar', path: '/admin/calendar', icon: CalendarDays },
     { name: 'Media Pit', path: '/admin/media', icon: ImageIcon },
+    { name: 'Sponsors', path: '/admin/sponsors', icon: Globe },
     { name: 'Achievements', path: '/admin/timeline', icon: History },
     { name: 'Access Control', path: '/admin/access', icon: ShieldAlert },
   ];
@@ -124,15 +126,16 @@ export function AdminDashboard() {
 
       {/* Main Content Area */}
       <main className="flex-1 overflow-auto relative noise-bg">
-        <div className="p-6 md:p-10 max-w-6xl mx-auto relative z-10">
+          <div className="flex-1 p-8 h-[calc(100vh-64px)] overflow-y-auto">
             <Routes>
               <Route index element={<Telemetry />} />
               <Route path="calendar" element={<RaceCalendar />} />
               <Route path="media" element={<MediaPit />} />
+              <Route path="sponsors" element={<SponsorManager />} />
               <Route path="timeline" element={<Achievements />} />
               <Route path="access" element={<AdminManager />} />
             </Routes>
-        </div>
+          </div>
       </main>
     </div>
   );

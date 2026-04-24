@@ -49,6 +49,17 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Mobile Typography & Alignment Overrides */
+@media (max-width: 767px) {
+  h1, h2, h3, h4, h5, h6 {
+    text-align: left !important;
+  }
+  
+  p, span, .text-sm, .text-base, .text-lg, li {
+    line-height: 1.65 !important;
+  }
+}
+
 body {
   background: var(--theme-bg);
   color: var(--theme-text);
@@ -220,4 +231,29 @@ h1, h2, h3, h4, .display-text {
 
 .btn-secondary:hover svg {
   transform: translateX(4px);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Sponsor Marquee                                                            */
+/* -------------------------------------------------------------------------- */
+@keyframes sponsor-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.sponsor-marquee {
+  width: 100%;
+  overflow: hidden;
+}
+
+.sponsor-track {
+  display: flex;
+  width: max-content;
+  animation: sponsor-scroll 20s linear infinite;
+}
+
+
+.sponsor-item {
+  flex-shrink: 0;
+  padding: 0 1.5rem;
 }

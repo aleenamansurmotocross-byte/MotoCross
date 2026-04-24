@@ -54,7 +54,7 @@ export function HomeGallery() {
   return (
     <section id="gallery" className="py-24 relative z-20 bg-dark-bg border-t border-white/5">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 w-full">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
