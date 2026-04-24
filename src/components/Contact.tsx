@@ -31,15 +31,13 @@ export function Contact() {
         body: JSON.stringify(formData)
       });
 
-      // Safely parse JSON — the API may return non-JSON (e.g. HTML on Vercel)
-      const contentType = res.headers.get('content-type') || '';
-      let data: any;
-
-      if (contentType.includes('application/json')) {
-        const text = await res.text();
+      // Safely parse the response body
+      const text = await res.text();
+      let data: any = {};
+      try {
         data = text ? JSON.parse(text) : {};
-      } else {
-        // Response is not JSON (likely the API route doesn't exist in this environment)
+      } catch {
+        // Response wasn't JSON (API route may not exist in this environment)
         throw new Error('Contact API is not available. Please try again later.');
       }
       
