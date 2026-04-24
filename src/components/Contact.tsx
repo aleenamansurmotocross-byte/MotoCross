@@ -171,10 +171,10 @@ export function Contact() {
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-cyan hover:bg-white text-black font-bold py-4 px-8 uppercase text-sm tracking-wider rounded-lg transition-all duration-300 flex items-center justify-center gap-3 glow-cyan group skew-velocity disabled:opacity-50"
+                className="w-full btn-primary group disabled:opacity-50"
               >
-                <span className="unskew-velocity">{isSubmitting ? 'Transmitting...' : 'Transmit Message'}</span>
-                <ArrowRight className="w-5 h-5 unskew-velocity group-hover:translate-x-2 transition-transform" />
+                {isSubmitting ? 'Transmitting...' : 'Transmit Message'}
+                <ArrowRight className="w-5 h-5" />
               </button>
             </motion.form>
           </div>

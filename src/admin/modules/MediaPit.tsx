@@ -153,7 +153,7 @@ export function MediaPit() {
                   <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button 
                       onClick={() => toggleFeatured(item.id, item.featured)}
-                      className={`p-2 rounded-full backdrop-blur-md border ${item.featured ? 'bg-cyan text-black border-cyan' : 'bg-black/50 text-white border-white/20 hover:bg-white hover:text-black'} transition-colors`}
+                      className={`p-2 rounded-full backdrop-blur-md border ${item.featured ? 'bg-cyan text-[#000000] border-cyan' : 'bg-black/50 text-[#ffffff] border-white/20 hover:bg-cyan hover:text-[#000000]'} transition-colors`}
                     >
                       <Star className="w-4 h-4" />
                     </button>

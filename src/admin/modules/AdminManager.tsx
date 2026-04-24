@@ -102,11 +102,9 @@ export function AdminManager() {
           />
           <button 
             type="submit"
-            className="bg-cyan hover:bg-white text-black px-6 py-3 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-colors skew-velocity min-w-[140px]"
+            className="btn-primary group min-w-[140px]"
           >
-            <span className="unskew-velocity flex items-center gap-2">
               <Plus className="w-4 h-4" /> Grant Access
-            </span>
           </button>
         </form>
       </div>

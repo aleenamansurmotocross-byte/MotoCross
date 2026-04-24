@@ -26,16 +26,6 @@ export function Events() {
               Race <span className="neon-orange-text">Calendar</span>
             </h2>
           </motion.div>
-          <motion.a
-            href="#events"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-6 md:mt-0 text-sm font-bold uppercase tracking-wider text-cyan hover:text-white transition-colors flex items-center gap-2"
-          >
-            All Events <ArrowRight className="w-4 h-4" />
-          </motion.a>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -82,14 +72,29 @@ export function Events() {
                 </div>
                 
                 <div className="pt-4 border-t border-white/10">
-                  <a href="#contact" className="text-sm font-bold uppercase tracking-widest text-white flex items-center gap-2 group-hover:gap-4 transition-all">
-                    Register Interest <ArrowRight className="w-4 h-4 text-neon-orange" />
+                  <a href="#contact" className="btn-primary w-full group">
+                    Register Interest <ArrowRight className="w-4 h-4" />
                   </a>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-16 flex justify-center w-full px-4 sm:px-0"
+        >
+          <a
+            href="#events"
+            className="btn-primary group w-full sm:w-auto"
+          >
+            All Events <ArrowRight className="w-4 h-4" />
+          </a>
+        </motion.div>
       </div>
     </section>
   );

@@ -105,13 +105,11 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
             <button 
               type="submit"
               disabled={loading}
-              className="w-full bg-cyan hover:bg-white text-black font-bold uppercase tracking-widest text-sm py-4 rounded-lg flex justify-center items-center gap-3 transition-colors skew-velocity glow-cyan group disabled:opacity-50"
+              className="w-full btn-primary group disabled:opacity-50"
             >
-              <span className="unskew-velocity flex items-center gap-2">
                 {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Lock className="w-4 h-4" /> }
                 {loading ? 'Authenticating...' : 'Log In Securely'}
-                {!loading && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
-              </span>
+                {!loading && <ArrowRight className="w-4 h-4" />}
             </button>
           </form>
         </div>

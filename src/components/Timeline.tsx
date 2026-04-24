@@ -57,7 +57,7 @@ export function Timeline() {
               >
                 <Link 
                   to="/achievements" 
-                  className="inline-flex items-center gap-2 glass-card hover:bg-white/10 transition-all duration-300 py-4 px-8 uppercase text-sm tracking-wider font-bold text-cyan border border-cyan/50 glow-cyan rounded-sm"
+                  className="btn-primary group"
                 >
                   View All Achievements <ArrowRight className="w-4 h-4" />
                 </Link>

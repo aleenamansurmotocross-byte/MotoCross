@@ -17,13 +17,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       // Check if user has a previously saved theme preference
       const saved = localStorage.getItem('theme') as Theme;
       if (saved === 'dark' || saved === 'light') return saved;
-      
-      // Fallback to system preference if no saved preference exists
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        return 'light';
-      }
     }
-    // Default to 'dark' to preserve the original Moto-Rally aesthetic
+    // Default to 'dark'
     return 'dark'; 
   });
 

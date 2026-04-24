@@ -49,11 +49,9 @@ export function Achievements() {
         </div>
         <button 
           onClick={handleAdd}
-          className="bg-cyan hover:bg-white text-black px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-colors skew-velocity glow-cyan"
+          className="btn-primary group"
         >
-          <span className="unskew-velocity flex items-center gap-2">
             <Plus className="w-4 h-4" /> Add Record
-          </span>
         </button>
       </div>
 

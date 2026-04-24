@@ -118,7 +118,7 @@ export function HomeGallery() {
         >
           <Link 
             to="/gallery" 
-            className="glass-card hover:bg-white/10 transition-all duration-300 py-3 px-8 uppercase text-xs tracking-wider font-bold text-cyan border border-cyan/50 glow-cyan rounded-sm flex items-center gap-2"
+            className="btn-primary group"
           >
             View Full Gallery <ArrowRight className="w-4 h-4" />
           </Link>

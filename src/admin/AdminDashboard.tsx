@@ -107,7 +107,7 @@ export function AdminDashboard() {
           <Link 
             to="/"
             target="_blank"
-            className="flex items-center justify-center gap-2 px-4 py-3 bg-white text-black rounded-lg uppercase text-xs font-bold tracking-widest transition-all duration-300 hover:bg-gray-200 skew-velocity"
+            className="flex items-center justify-center gap-2 px-4 py-3 bg-[var(--theme-text)] text-[var(--theme-bg)] rounded-lg uppercase text-xs font-bold tracking-widest transition-all duration-300 hover:opacity-80 skew-velocity"
           >
             <Globe className="w-4 h-4 unskew-velocity" />
             <span className="unskew-velocity">Live Preview</span>

@@ -9,8 +9,8 @@ export function AboutMe() {
   const aboutImage = media.find(m => m.tag === 'about-me')?.url || '/images/gallery_1.jpg';
 
   const infoCards = [
-    { label: 'Bike', value: 'Husqvarna TC85', icon: Zap, color: 'neon-cyan-text', borderColor: 'border-cyan/30' },
-    { label: 'Category', value: '85cc Juniors SX-2', icon: Target, color: 'text-white', borderColor: 'border-white/10' },
+    { label: 'Bike', value: 'KTM SX 125', icon: Zap, color: 'neon-cyan-text', borderColor: 'border-cyan/30' },
+    { label: 'Category', value: 'Juniors MX-1', icon: Target, color: 'text-white', borderColor: 'border-white/10' },
     { label: 'Team', value: 'Aligned Automation', icon: Flag, color: 'neon-orange-text', borderColor: 'border-neon-orange/30' },
     { label: 'Experience', value: '7+ years', icon: Trophy, color: 'text-white', borderColor: 'border-white/10' },
   ];

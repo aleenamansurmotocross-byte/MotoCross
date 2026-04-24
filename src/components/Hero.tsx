@@ -32,7 +32,7 @@ export function Hero() {
           >
             <h2 className="neon-orange-text font-bold tracking-widest uppercase text-sm mb-4 flex items-center gap-2">
               <span className="w-8 h-[2px] bg-neon-orange"></span>
-              Aleena Mansur
+              Pro Supercross Racer
             </h2>
           </motion.div>
 
@@ -61,12 +61,12 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
             className="flex flex-wrap gap-4"
           >
-            <a href="#gallery" className="bg-cyan hover:bg-white transition-all duration-300 text-black font-bold py-4 px-8 uppercase text-sm tracking-wider flex items-center gap-2 group skew-velocity glow-cyan">
-              <span className="unskew-velocity">View Gallery</span>
-              <ChevronRight className="w-4 h-4 unskew-velocity group-hover:translate-x-1 transition-transform" />
+            <a href="#gallery" className="btn-primary group">
+              View Gallery
+              <ChevronRight className="w-4 h-4" />
             </a>
-            <a href="#events" className="glass-card hover:bg-white/10 transition-all duration-300 py-4 px-8 uppercase text-sm tracking-wider font-semibold group skew-velocity border border-cyan text-cyan block flex justify-center items-center">
-              <span className="unskew-velocity block">Upcoming Events</span>
+            <a href="#events" className="btn-secondary group">
+              Upcoming Events
             </a>
           </motion.div>
         </div>

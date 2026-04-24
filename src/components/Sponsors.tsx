@@ -37,24 +37,26 @@ export function Sponsors() {
           {duplicatedSponsors.map((sponsor, i) => (
             <div 
               key={i} 
-              className="px-12 md:px-20 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-500 cursor-pointer group"
+              className="px-6 md:px-10 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-500 cursor-pointer group"
             >
-              {/* Fallback text rendering if images aren't present */}
-              <img 
-                src={sponsor.logo} 
-                alt={sponsor.name} 
-                className="h-16 md:h-24 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500"
-                onError={(e) => {
-                  // If image fails to load, hide it and show text span
-                  e.currentTarget.style.display = 'none';
-                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                }}
-              />
-              <span className="hidden text-4xl md:text-6xl font-black italic display-text uppercase text-transparent bg-clip-text group-hover:neon-cyan-text group-hover:text-cyan transition-all duration-500"
-                    style={{ WebkitTextStroke: '2px var(--theme-text-stroke)', WebkitTextFillColor: 'transparent' }}
+              <div 
+                className="p-4 md:p-6 rounded-2xl flex items-center justify-center transition-all duration-500 border border-transparent group-hover:border-cyan/30 hover:bg-white/5 shadow-lg min-w-[200px] h-[120px]"
               >
-                {sponsor.name}
-              </span>
+                <img 
+                  src={sponsor.logo} 
+                  alt={sponsor.name} 
+                  className="max-h-16 md:max-h-20 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500 drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                  }}
+                />
+                <span className="hidden text-2xl md:text-3xl font-black italic display-text uppercase text-transparent bg-clip-text group-hover:neon-cyan-text group-hover:text-cyan transition-all duration-500"
+                      style={{ WebkitTextStroke: '2px var(--theme-text)', WebkitTextFillColor: 'transparent' }}
+                >
+                  {sponsor.name}
+                </span>
+              </div>
             </div>
           ))}
         </motion.div>

@@ -75,12 +75,10 @@ export function Telemetry() {
         <button
           onClick={handleUpdate}
           disabled={saving}
-          className="bg-cyan hover:bg-cyan/80 text-black font-bold uppercase tracking-widest text-sm px-8 py-4 rounded-lg skew-velocity flex items-center gap-2 transition-all glow-cyan disabled:opacity-50"
+          className="btn-primary group disabled:opacity-50"
         >
-          <span className="unskew-velocity flex items-center gap-2">
             {saving ? <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" /> : <Save className="w-4 h-4" />}
             Global Update
-          </span>
         </button>
       </div>
     </motion.div>

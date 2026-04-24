@@ -2,14 +2,14 @@
 
 :root {
   /* Default Dark Mode (Moto-Rally Aesthetic) */
-  --theme-bg: #050505;
-  --theme-surface: #1a1a1a;
-  --theme-text: #f3f4f6;
-  --theme-text-gray-300: #d1d5db;
+  --theme-bg: #0f1115;
+  --theme-surface: #1a1c23;
+  --theme-text: #ffffff;
+  --theme-text-gray-300: #e5e7eb;
   --theme-text-gray-400: #9ca3af;
   --theme-text-gray-500: #6b7280;
   --theme-border: rgba(255, 255, 255, 0.1);
-  --theme-glass-bg: rgba(255, 255, 255, 0.03);
+  --theme-glass-bg: rgba(255, 255, 255, 0.04);
   --theme-glass-border: rgba(255, 255, 255, 0.08);
   --theme-text-stroke: rgba(255, 255, 255, 0.4);
   --theme-cyan: #22d3ee;
@@ -113,4 +113,111 @@ h1, h2, h3, h4, .display-text {
 .light .noise-bg::before {
   mix-blend-mode: multiply;
   opacity: 0.03;
+}
+
+/* Standardized Button Styles */
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #000000 !important;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 1;
+  transition: transform 0.2s ease, color 0.3s ease;
+  background: transparent;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--theme-cyan) 0%, #0891b2 100%);
+  border-radius: 0;
+  transform: skewX(-12deg);
+  z-index: -1;
+  box-shadow: 0 4px 15px rgba(34, 211, 238, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover::before {
+  background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.6);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: scale(0.95);
+}
+
+.btn-primary svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-primary:hover svg {
+  transform: translateX(4px);
+}
+
+.btn-secondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #000000 !important;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 1;
+  transition: transform 0.2s ease, color 0.3s ease;
+  background: transparent;
+}
+
+.btn-secondary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--theme-orange) 0%, #ea580c 100%);
+  border-radius: 0;
+  transform: skewX(-12deg);
+  z-index: -1;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover::before {
+  background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.6);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+  transform: scale(0.95);
+}
+
+.btn-secondary svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-secondary:hover svg {
+  transform: translateX(4px);
 }
