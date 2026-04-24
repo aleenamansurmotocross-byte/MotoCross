@@ -5,7 +5,7 @@ import { supabase } from '../supabase';
 export type StatsData = { experience: number; wins: number; podiums: number; races: number };
 export type RaceEvent = { id: string; name: string; location: string; date: string; status: 'Confirmed' | 'TBD'; image_url?: string };
 export type Achievement = { id: string; year: string; rank: string; eventName: string; category: string };
-export type MediaFile = { id: string; url: string; file?: File; progress: number; featured: boolean; tag: string };
+export type MediaFile = { id: string; url: string; file?: File; progress: number; featured: boolean; tag: string; type?: 'image' | 'video' };
 export type Sponsor = { id: string; name?: string; logo: string; link?: string; created_at?: string };
 
 interface AppContextType {

@@ -30,8 +30,18 @@ export function Contact() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
-      
-      const data = await res.json();
+
+      // Safely parse JSON — the API may return non-JSON (e.g. HTML on Vercel)
+      const contentType = res.headers.get('content-type') || '';
+      let data: any;
+
+      if (contentType.includes('application/json')) {
+        const text = await res.text();
+        data = text ? JSON.parse(text) : {};
+      } else {
+        // Response is not JSON (likely the API route doesn't exist in this environment)
+        throw new Error('Contact API is not available. Please try again later.');
+      }
       
       if (!res.ok) {
         throw new Error(data.error || 'Failed to transmit message');
