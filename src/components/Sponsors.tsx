@@ -18,7 +18,7 @@ export function Sponsors() {
   const marqueeItems = Array.from({ length: repeatCount }, () => displaySponsors).flat();
 
   return (
-    <section className="py-20 relative z-20 border-y border-white/5 bg-charcoal/80 overflow-hidden">
+    <section id="sponsors-section" className="py-20 relative z-20 border-y border-white/5 bg-charcoal/80 overflow-hidden">
       <div className="container mx-auto px-6 mb-12">
         <h2 className="!text-center text-3xl md:text-4xl font-black italic uppercase display-text">
           <span className="text-gray-500">Sponsored</span> <span className="text-white">By</span>
@@ -35,7 +35,7 @@ export function Sponsors() {
             {marqueeItems.map((sponsor, i) => {
               const LogoContent = (
                 <div 
-                  className="p-4 md:p-6 rounded-2xl flex items-center justify-center transition-all duration-500 border border-white/10 group-hover:border-cyan/30 bg-white/90 shadow-lg min-w-[220px] h-[120px] group-hover:shadow-cyan/20 group-hover:shadow-xl"
+                  className="p-4 md:p-6 rounded-2xl flex items-center justify-center transition-all duration-500 border border-gray-200 group-hover:border-cyan/30 bg-[#ffffff] shadow-md min-w-[220px] h-[120px] group-hover:shadow-cyan/20 group-hover:shadow-xl"
                 >
                   <img 
                     src={sponsor.logo} 

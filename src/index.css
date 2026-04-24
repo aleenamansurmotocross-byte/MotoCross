@@ -32,6 +32,12 @@
   --theme-orange: #ea580c;
 }
 
+/* Light mode sponsor section */
+.light #sponsors-section {
+  background: #cbd5e1;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
 @theme {
   --font-sans: "Helvetica Neue", Arial, sans-serif;
   --font-display: "Arial Black", Gadget, sans-serif;
