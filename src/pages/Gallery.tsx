@@ -149,11 +149,11 @@ export function Gallery() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedIndex(null)}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 sm:p-6 md:p-12 backdrop-blur-md cursor-zoom-out"
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 sm:p-6 md:p-12 backdrop-blur-md cursor-zoom-out"
             >
               <button 
                 onClick={(e) => { e.stopPropagation(); setSelectedIndex(null); }}
-                className="absolute top-6 right-6 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-50"
+                className="absolute top-6 right-6 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-[110]"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -161,7 +161,7 @@ export function Gallery() {
               {activeMedia.length > 1 && (
                 <button
                   onClick={handlePrev}
-                  className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-50"
+                  className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-[110]"
                 >
                   <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
                 </button>
@@ -217,13 +217,13 @@ export function Gallery() {
               {activeMedia.length > 1 && (
                 <button
                   onClick={handleNext}
-                  className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-50"
+                  className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-[110]"
                 >
                   <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
                 </button>
               )}
               
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 font-mono text-sm tracking-widest bg-charcoal/80 px-4 py-2 rounded-full border border-white/10 flex flex-col items-center gap-1">
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 font-mono text-sm tracking-widest bg-charcoal/80 px-4 py-2 rounded-full border border-white/10 z-[110] flex flex-col items-center gap-1">
                 <span>{selectedIndex + 1} / {activeMedia.length}</span>
                 {selectedItem.tag && (
                   <span className="text-white text-xs">{selectedItem.tag}</span>
