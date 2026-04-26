@@ -1,5 +1,6 @@
 import { Canvas } from '@react-three/fiber';
 import { Navbar } from '../components/Navbar';
+import { SponsorStrip } from '../components/SponsorStrip';
 import { Hero } from '../components/Hero';
 import { AboutMe } from '../components/AboutMe';
 import { Sponsors } from '../components/Sponsors';
@@ -13,7 +14,7 @@ import { Link } from 'react-router-dom';
 
 export function Portfolio() {
   return (
-    <main className="noise-bg min-h-screen bg-dark-bg selection:bg-cyan selection:text-black">
+    <main className="noise-bg min-h-screen bg-dark-bg selection:bg-cyan selection:text-black pt-[110px] md:pt-[120px]">
       {/* 3D Background layer */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-60">
         <Canvas camera={{ position: [0, 0, 10], fov: 75 }}>
@@ -25,6 +26,7 @@ export function Portfolio() {
 
       {/* Foreground Content */}
       <Navbar />
+      <SponsorStrip />
       <Hero />
       <AboutMe />
       <Sponsors />
