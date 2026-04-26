@@ -275,7 +275,8 @@ h1, h2, h3, h4, .display-text {
 /* Outer wrapper — sits right below the fixed navbar, full-width, z-40 */
 .sponsor-strip-wrapper {
   position: fixed;
-  top: 68px;           /* navbar height (65px) + 3px headroom */
+  top: 65px;           /* flush with navbar bottom */
+  margin-top: 4px;     /* 4px visible headroom gap */
   left: 0;
   right: 0;
   z-index: 40;
@@ -288,6 +289,7 @@ h1, h2, h3, h4, .display-text {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   /* subtle top accent line */
   box-shadow: 0 1px 0 rgba(249, 115, 22, 0.25), 0 4px 20px rgba(0,0,0,0.35);
 }
@@ -400,7 +402,8 @@ h1, h2, h3, h4, .display-text {
 /* Responsive — smaller on mobile */
 @media (max-width: 767px) {
   .sponsor-strip-wrapper {
-    top: 68px;   /* navbar height (65px) + 3px headroom */
+    top: 65px;     /* flush with navbar bottom */
+    margin-top: 4px;  /* same 4px headroom on mobile */
     height: 42px;
   }
 
