@@ -52,7 +52,7 @@ export function Navbar() {
       <div className="container mx-auto px-6 py-4 flex justify-between items-center relative z-50">
         <a href="#" className="flex items-center gap-2 group relative z-50">
           <span className="w-8 h-[2px] bg-neon-orange group-hover:w-12 transition-all duration-300"></span>
-          <span className="font-black italic uppercase tracking-[0.15em] text-lg display-text">AleenaMansur</span>
+          <span className="font-black italic uppercase tracking-[0.15em] text-lg display-text">Aleena Mansur</span>
         </a>
         
         {/* Desktop Menu */}
