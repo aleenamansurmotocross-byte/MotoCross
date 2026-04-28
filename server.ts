@@ -17,7 +17,7 @@ async function startServer() {
   app.post("/api/contact", async (req, res) => {
     try {
       const { firstName, lastName, email, message } = req.body;
-      
+
       if (!process.env.RESEND_API_KEY) {
         return res.status(500).json({ error: "Resend API key is not configured in settings." });
       }
@@ -25,7 +25,7 @@ async function startServer() {
       // Send the email to the client
       const result = await resend.emails.send({
         from: 'Aleena Mansur Motocross <contact@aleenamansur.com>',
-        to: ['aleenamansurmotocross@gmail.com'], // Must match the verified Resend account email
+        to: ['mansur.shaikhs@icloud.com'], // Must match the verified Resend account email
         subject: `New Inquiry from ${firstName} ${lastName}`,
         html: `
           <h3>New Contact Request from The Paddock</h3>

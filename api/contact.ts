@@ -21,7 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const result = await resend.emails.send({
       from: 'Contact Form <onboarding@resend.dev>',
-      to: ['aleenamansurmotocross@gmail.com'],
+      to: ['mansur.shaikhs@icloud.com'],
       subject: `New Inquiry from ${firstName} ${lastName}`,
       html: `
         <h3>New Contact Request from The Paddock</h3>
