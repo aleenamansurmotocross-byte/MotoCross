@@ -24,7 +24,7 @@ async function startServer() {
 
       // Send the email to the client
       const result = await resend.emails.send({
-        from: 'Contact Form <onboarding@resend.dev>', // Resend uses onboarding@resend.dev for testing/free tier
+        from: 'Aleena Mansur Motocross <contact@aleenamansur.com>',
         to: ['aleenamansurmotocross@gmail.com'], // Must match the verified Resend account email
         subject: `New Inquiry from ${firstName} ${lastName}`,
         html: `
