@@ -95,16 +95,6 @@ export function Contact() {
                   </div>
                 </a>
 
-                <a href="https://www.youtube.com/@aleenamansur9030" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group cursor-pointer w-fit">
-                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-red-500 transition-all duration-300 shadow-[0_0_15px_rgba(239,68,68,0)] group-hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] bg-black/20">
-                    <Youtube className="w-5 h-5 text-gray-300 group-hover:text-red-500 transition-colors" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">YouTube</div>
-                    <div className="text-lg font-medium hover:text-red-500 transition-colors">@aleenamansur9030</div>
-                  </div>
-                </a>
-
                 <a href="https://www.instagram.com/aleena.mansur/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group cursor-pointer w-fit">
                   <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-pink-500 transition-all duration-300 shadow-[0_0_15px_rgba(236,72,153,0)] group-hover:shadow-[0_0_15px_rgba(236,72,153,0.5)] bg-black/20">
                     <Instagram className="w-5 h-5 text-gray-300 group-hover:text-pink-500 transition-colors" />
@@ -112,6 +102,16 @@ export function Contact() {
                   <div>
                     <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">Instagram</div>
                     <div className="text-lg font-medium hover:text-pink-500 transition-colors">@aleena.mansur</div>
+                  </div>
+                </a>
+
+                <a href="https://www.youtube.com/@aleenamansur9030" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group cursor-pointer w-fit">
+                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-red-500 transition-all duration-300 shadow-[0_0_15px_rgba(239,68,68,0)] group-hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] bg-black/20">
+                    <Youtube className="w-5 h-5 text-gray-300 group-hover:text-red-500 transition-colors" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">YouTube</div>
+                    <div className="text-lg font-medium hover:text-red-500 transition-colors">@aleenamansur9030</div>
                   </div>
                 </a>
               </div>

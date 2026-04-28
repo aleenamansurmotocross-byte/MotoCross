@@ -7,6 +7,7 @@ export type RaceEvent = { id: string; name: string; location: string; date: stri
 export type Achievement = { id: string; year: string; rank: string; eventName: string; category: string };
 export type MediaFile = { id: string; url: string; file?: File; progress: number; featured: boolean; tag: string; type?: 'image' | 'video' };
 export type Sponsor = { id: string; name?: string; logo: string; link?: string; created_at?: string };
+export type YouTubeVideo = { id: string; video_id: string; title?: string; description?: string; created_at?: string };
 
 interface AppContextType {
   stats: StatsData;
@@ -19,6 +20,8 @@ interface AppContextType {
   setMedia: React.Dispatch<React.SetStateAction<MediaFile[]>>;
   sponsors: Sponsor[];
   setSponsors: React.Dispatch<React.SetStateAction<Sponsor[]>>;
+  videos: YouTubeVideo[];
+  setVideos: React.Dispatch<React.SetStateAction<YouTubeVideo[]>>;
 }
 
 const defaultStats: StatsData = { experience: 7, wins: 18, podiums: 65, races: 83 };
@@ -51,16 +54,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [media, setMedia] = useState<MediaFile[]>([]);
   const [sponsors, setSponsors] = useState<Sponsor[]>([]);
+  const [videos, setVideos] = useState<YouTubeVideo[]>([]);
 
   useEffect(() => {
     // Initial Fetches
     const fetchAll = async () => {
-      const [{ data: statsData }, { data: racesData }, { data: achData }, { data: mediaData }, { data: sponsorsData }] = await Promise.all([
+      const [{ data: statsData }, { data: racesData }, { data: achData }, { data: mediaData }, { data: sponsorsData }, { data: videosData }] = await Promise.all([
         supabase.from('site_stats').select('*').single(),
         supabase.from('races').select('*'),
         supabase.from('achievements').select('*').order('year', { ascending: false }),
         supabase.from('media').select('*').order('created_at', { ascending: false }),
-        supabase.from('sponsors').select('*').order('created_at', { ascending: true })
+        supabase.from('sponsors').select('*').order('created_at', { ascending: true }),
+        supabase.from('youtube_videos').select('*').order('created_at', { ascending: false })
       ]);
 
       if (statsData) setStatsState(statsData as StatsData);
@@ -68,6 +73,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       if (achData) setAchievements(achData as Achievement[]);
       if (mediaData) setMedia(mediaData.map(m => ({ ...m, progress: 100 })) as MediaFile[]);
       if (sponsorsData) setSponsors(sponsorsData as Sponsor[]);
+      if (videosData) setVideos(videosData as YouTubeVideo[]);
     };
 
     fetchAll();
@@ -106,12 +112,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
         });
       }).subscribe();
 
+    const videosSub = supabase.channel('youtube_videos-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'youtube_videos' }, () => {
+        supabase.from('youtube_videos').select('*').order('created_at', { ascending: false }).then(({ data }) => {
+          if (data) setVideos(data as YouTubeVideo[]);
+        });
+      }).subscribe();
+
     return () => {
       supabase.removeChannel(statsSub);
       supabase.removeChannel(racesSub);
       supabase.removeChannel(achSub);
       supabase.removeChannel(mediaSub);
       supabase.removeChannel(sponsorsSub);
+      supabase.removeChannel(videosSub);
     };
   }, []);
 
@@ -123,7 +137,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AppContext.Provider value={{ stats, setStats, races, setRaces, achievements, setAchievements, media, setMedia, sponsors, setSponsors }}>
+    <AppContext.Provider value={{ stats, setStats, races, setRaces, achievements, setAchievements, media, setMedia, sponsors, setSponsors, videos, setVideos }}>
       {children}
     </AppContext.Provider>
   );
