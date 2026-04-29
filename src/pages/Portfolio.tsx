@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { Navbar } from '../components/Navbar';
 import { SponsorStrip } from '../components/SponsorStrip';
+import { AnnouncementBanner } from '../components/AnnouncementBanner';
 import { Hero } from '../components/Hero';
 import { AboutMe } from '../components/AboutMe';
 import { Sponsors } from '../components/Sponsors';
@@ -26,7 +27,10 @@ export function Portfolio() {
 
       {/* Foreground Content */}
       <Navbar />
-      <SponsorStrip />
+      <div className="flex flex-col w-full relative z-40">
+        <SponsorStrip />
+        <AnnouncementBanner />
+      </div>
       <Hero />
       <AboutMe />
       <Sponsors />

@@ -17,8 +17,9 @@ import { Achievements } from './modules/Achievements';
 import { AdminManager } from './modules/AdminManager';
 import { SponsorManager } from './modules/SponsorManager';
 import { VideoManager } from './modules/VideoManager';
+import { AnnouncementManager } from './modules/AnnouncementManager';
 import { AdminLogin } from './AdminLogin';
-import { Youtube } from 'lucide-react';
+import { Youtube, Megaphone } from 'lucide-react';
 
 export function AdminDashboard() {
   const [token, setToken] = useState<string | null>(() => sessionStorage.getItem('admin_token'));
@@ -71,6 +72,7 @@ export function AdminDashboard() {
     { name: 'Media Pit', path: '/admin/media', icon: ImageIcon },
     { name: 'Videos', path: '/admin/videos', icon: Youtube },
     { name: 'Sponsors', path: '/admin/sponsors', icon: Globe },
+    { name: 'Announcement', path: '/admin/announcement', icon: Megaphone },
     { name: 'Achievements', path: '/admin/timeline', icon: History },
     { name: 'Access Control', path: '/admin/access', icon: ShieldAlert },
   ];
@@ -136,6 +138,7 @@ export function AdminDashboard() {
               <Route path="media" element={<MediaPit />} />
               <Route path="videos" element={<VideoManager />} />
               <Route path="sponsors" element={<SponsorManager />} />
+              <Route path="announcement" element={<AnnouncementManager />} />
               <Route path="timeline" element={<Achievements />} />
               <Route path="access" element={<AdminManager />} />
             </Routes>

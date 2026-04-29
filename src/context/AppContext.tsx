@@ -8,6 +8,7 @@ export type Achievement = { id: string; year: string; rank: string; eventName: s
 export type MediaFile = { id: string; url: string; file?: File; progress: number; featured: boolean; tag: string; type?: 'image' | 'video' };
 export type Sponsor = { id: string; name?: string; logo: string; link?: string; created_at?: string };
 export type YouTubeVideo = { id: string; video_id: string; title?: string; description?: string; created_at?: string };
+export type Announcement = { id: string; is_active: boolean; title: string; button_text?: string; button_link?: string };
 
 interface AppContextType {
   stats: StatsData;
@@ -22,6 +23,8 @@ interface AppContextType {
   setSponsors: React.Dispatch<React.SetStateAction<Sponsor[]>>;
   videos: YouTubeVideo[];
   setVideos: React.Dispatch<React.SetStateAction<YouTubeVideo[]>>;
+  announcement: Announcement | null;
+  setAnnouncement: React.Dispatch<React.SetStateAction<Announcement | null>>;
 }
 
 const defaultStats: StatsData = { experience: 7, wins: 18, podiums: 65, races: 83 };
@@ -55,17 +58,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [media, setMedia] = useState<MediaFile[]>([]);
   const [sponsors, setSponsors] = useState<Sponsor[]>([]);
   const [videos, setVideos] = useState<YouTubeVideo[]>([]);
+  const [announcement, setAnnouncement] = useState<Announcement | null>(null);
 
   useEffect(() => {
     // Initial Fetches
     const fetchAll = async () => {
-      const [{ data: statsData }, { data: racesData }, { data: achData }, { data: mediaData }, { data: sponsorsData }, { data: videosData }] = await Promise.all([
+      const [{ data: statsData }, { data: racesData }, { data: achData }, { data: mediaData }, { data: sponsorsData }, { data: videosData }, { data: announcementData }] = await Promise.all([
         supabase.from('site_stats').select('*').single(),
         supabase.from('races').select('*'),
         supabase.from('achievements').select('*').order('year', { ascending: false }),
         supabase.from('media').select('*').order('created_at', { ascending: false }),
         supabase.from('sponsors').select('*').order('created_at', { ascending: true }),
-        supabase.from('youtube_videos').select('*').order('created_at', { ascending: false })
+        supabase.from('youtube_videos').select('*').order('created_at', { ascending: false }),
+        supabase.from('announcement').select('*').single()
       ]);
 
       if (statsData) setStatsState(statsData as StatsData);
@@ -74,6 +79,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       if (mediaData) setMedia(mediaData.map(m => ({ ...m, progress: 100 })) as MediaFile[]);
       if (sponsorsData) setSponsors(sponsorsData as Sponsor[]);
       if (videosData) setVideos(videosData as YouTubeVideo[]);
+      if (announcementData) setAnnouncement(announcementData as Announcement);
     };
 
     fetchAll();
@@ -119,6 +125,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
         });
       }).subscribe();
 
+    const announcementSub = supabase.channel('announcement-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'announcement' }, payload => {
+        setAnnouncement(payload.new as Announcement);
+      }).subscribe();
+
     return () => {
       supabase.removeChannel(statsSub);
       supabase.removeChannel(racesSub);
@@ -126,6 +137,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       supabase.removeChannel(mediaSub);
       supabase.removeChannel(sponsorsSub);
       supabase.removeChannel(videosSub);
+      supabase.removeChannel(announcementSub);
     };
   }, []);
 
@@ -137,7 +149,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AppContext.Provider value={{ stats, setStats, races, setRaces, achievements, setAchievements, media, setMedia, sponsors, setSponsors, videos, setVideos }}>
+    <AppContext.Provider value={{ stats, setStats, races, setRaces, achievements, setAchievements, media, setMedia, sponsors, setSponsors, videos, setVideos, announcement, setAnnouncement }}>
       {children}
     </AppContext.Provider>
   );
