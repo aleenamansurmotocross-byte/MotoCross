@@ -110,7 +110,7 @@ export function AnnouncementManager() {
             </div>
             
             <div>
-              <label className="block text-xs font-mono text-gray-400 uppercase tracking-wider mb-2">Button Link (Optional)</label>
+              <label className="block text-xs font-mono text-gray-400 uppercase tracking-wider mb-2">YouTube Link (Optional)</label>
               <input 
                 type="url" 
                 value={buttonLink}

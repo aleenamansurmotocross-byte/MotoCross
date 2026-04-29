@@ -8,6 +8,7 @@ import { Sponsors } from '../components/Sponsors';
 import { Stats } from '../components/Stats';
 import { Timeline } from '../components/Timeline';
 import { HomeGallery } from '../components/HomeGallery';
+import { HomeVideos } from '../components/HomeVideos';
 import { Events } from '../components/Events';
 import { Contact } from '../components/Contact';
 import { ThreeBackground } from '../components/ThreeBackground';
@@ -37,6 +38,7 @@ export function Portfolio() {
       <Stats />
       <Timeline />
       <HomeGallery />
+      <HomeVideos />
       <Events />
       <Contact />
 

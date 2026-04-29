@@ -5,22 +5,10 @@ import { Link } from 'react-router-dom';
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <motion.div
-          initial={{ scale: 1.1, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.4 }}
-          transition={{ duration: 1.5, ease: 'easeOut' }}
-          className="w-full h-full"
-        >
-          <img
-            src="/images/hero_bg.jpg"
-            alt="Husqvarna TC85 Motocross"
-            className="w-full h-full object-cover object-center grayscale opacity-60"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-dark-bg via-dark-bg/80 to-transparent" />
-        </motion.div>
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Gradients to ensure text readability over the 3D background */}
+        <div className="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-dark-bg via-dark-bg/80 to-transparent" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">

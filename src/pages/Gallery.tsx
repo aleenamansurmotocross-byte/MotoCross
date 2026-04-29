@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, ExternalLink, X, ChevronLeft, ChevronRight, Play, Volume2, VolumeX } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useApp, MediaFile, YouTubeVideo } from '../context/AppContext';
 import { useState, useEffect, useRef } from 'react';
 
@@ -12,9 +12,12 @@ const getMediaType = (item: MediaFile): 'image' | 'video' => {
 
 export function Gallery() {
   const { media, videos } = useApp();
+  const location = useLocation();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<YouTubeVideo | null>(null);
-  const [activeTab, setActiveTab] = useState<'photos' | 'videos'>('photos');
+  const [activeTab, setActiveTab] = useState<'photos' | 'videos'>(
+    location.hash === '#videos' || location.search.includes('tab=videos') ? 'videos' : 'photos'
+  );
   const [lightboxMuted, setLightboxMuted] = useState(true);
   const lightboxVideoRef = useRef<HTMLVideoElement>(null);
   
