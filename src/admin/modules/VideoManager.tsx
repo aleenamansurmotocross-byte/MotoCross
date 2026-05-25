@@ -14,11 +14,17 @@ export function VideoManager() {
   const [saving, setSaving] = useState(false);
   
   const extractVideoId = (inputUrl: string) => {
+    const shortsMatch = inputUrl.match(/(?:shorts\/)([^&?/\s]+)/);
+    if (shortsMatch) {
+      return `short-${shortsMatch[1]}`;
+    }
     const match = inputUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
     return match ? match[1] : null;
   };
 
   const previewVideoId = extractVideoId(url);
+  const isPreviewShort = previewVideoId ? previewVideoId.startsWith('short-') : false;
+  const actualPreviewId = previewVideoId ? (isPreviewShort ? previewVideoId.substring(6) : previewVideoId) : '';
 
   const clearForm = () => {
     setUrl('');
@@ -107,9 +113,9 @@ export function VideoManager() {
               </div>
               
               {previewVideoId && (
-                <div className="relative rounded-xl border border-white/10 overflow-hidden bg-black/50 aspect-video group">
+                <div className={`relative rounded-xl border border-white/10 overflow-hidden bg-black/50 group ${isPreviewShort ? 'aspect-[9/16] max-w-[200px] mx-auto' : 'aspect-video'}`}>
                   <img 
-                    src={`https://img.youtube.com/vi/${previewVideoId}/hqdefault.jpg`} 
+                    src={`https://img.youtube.com/vi/${actualPreviewId}/hqdefault.jpg`} 
                     alt="Preview" 
                     className="w-full h-full object-cover opacity-80" 
                   />
@@ -171,40 +177,59 @@ export function VideoManager() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <AnimatePresence>
-                  {videos.map(video => (
-                    <motion.div 
-                      key={video.id}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      className="glass-card border-white/5 overflow-hidden group flex flex-col relative"
-                    >
-                      <button 
-                        onClick={() => handleDelete(video.id)}
-                        className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-red-500/80 text-white rounded opacity-0 group-hover:opacity-100 transition-all z-10"
-                        title="Delete Video"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                  {videos.map(video => {
+                    const isShort = video.video_id.startsWith('short-');
+                    const actualVideoId = isShort ? video.video_id.substring(6) : video.video_id;
 
-                      <div className="bg-black relative aspect-video flex items-center justify-center overflow-hidden">
-                        <img 
-                          src={`https://img.youtube.com/vi/${video.video_id}/hqdefault.jpg`} 
-                          alt={video.title || 'YouTube Video'} 
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none drop-shadow-lg">
-                           <Youtube className="w-10 h-10 text-white opacity-80" />
+                    return (
+                      <motion.div 
+                        key={video.id}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        className="glass-card border-white/5 overflow-hidden group flex flex-col relative"
+                      >
+                        <button 
+                          onClick={() => handleDelete(video.id)}
+                          className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-red-500/80 text-white rounded opacity-0 group-hover:opacity-100 transition-all z-20"
+                          title="Delete Video"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+
+                        <div className={`bg-black relative flex items-center justify-center overflow-hidden ${isShort ? 'aspect-[9/16] max-h-[300px]' : 'aspect-video'}`}>
+                          <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm text-white text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border border-white/10 z-10">
+                            {isShort ? (
+                              <>
+                                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                                Short
+                              </>
+                            ) : (
+                              <>
+                                <span className="w-1.5 h-1.5 rounded-full bg-cyan"></span>
+                                Video
+                              </>
+                            )}
+                          </div>
+
+                          <img 
+                            src={`https://img.youtube.com/vi/${actualVideoId}/hqdefault.jpg`} 
+                            alt={video.title || 'YouTube Video'} 
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none drop-shadow-lg">
+                             <Youtube className="w-10 h-10 text-white opacity-80" />
+                          </div>
                         </div>
-                      </div>
-                      
-                      <div className="p-3 border-t border-white/5 flex-1 flex flex-col justify-center">
-                        <p className="font-bold text-sm truncate">{video.title || 'Untitled Video'}</p>
-                        <p className="text-xs text-gray-500 truncate mt-1">ID: {video.video_id}</p>
-                      </div>
-                    </motion.div>
-                  ))}
+                        
+                        <div className="p-3 border-t border-white/5 flex-1 flex flex-col justify-center">
+                          <p className="font-bold text-sm truncate">{video.title || 'Untitled Video'}</p>
+                          <p className="text-xs text-gray-500 truncate mt-1">ID: {actualVideoId}</p>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </AnimatePresence>
               </div>
             )}

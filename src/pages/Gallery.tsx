@@ -238,42 +238,63 @@ export function Gallery() {
                   </motion.div>
                 ))}
 
-                {videos.map((video, idx) => (
-                  <motion.div
-                    key={video.id}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: (uploadedVideos.length + idx) * 0.1 }}
-                    onClick={() => setSelectedVideo(video)}
-                    className="glass-card overflow-hidden group cursor-pointer relative h-64 md:h-72 rounded-xl"
-                  >
-                    <img
-                      src={`https://img.youtube.com/vi/${video.video_id}/hqdefault.jpg`}
-                      alt={video.title || "YouTube video thumbnail"}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
-                    />
+                {videos.map((video, idx) => {
+                  const isShort = video.video_id.startsWith('short-');
+                  const actualVideoId = isShort ? video.video_id.substring(6) : video.video_id;
 
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="w-16 h-16 rounded-full bg-red-600/90 border-2 border-white/30 flex items-center justify-center backdrop-blur-sm drop-shadow-2xl">
-                        <Play className="w-7 h-7 text-white fill-white ml-1" />
-                      </div>
-                    </div>
+                  return (
+                    <motion.div
+                      key={video.id}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: (uploadedVideos.length + idx) * 0.1 }}
+                      onClick={() => setSelectedVideo(video)}
+                      className={`glass-card overflow-hidden group cursor-pointer relative rounded-xl ${
+                        isShort ? 'aspect-[9/16] h-auto' : 'h-64 md:h-72 aspect-video md:aspect-auto'
+                      }`}
+                    >
+                      <img
+                        src={`https://img.youtube.com/vi/${actualVideoId}/hqdefault.jpg`}
+                        alt={video.title || "YouTube video thumbnail"}
+                        className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                      />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-dark-bg/95 via-dark-bg/40 to-transparent opacity-90 transition-opacity duration-300 flex items-end p-6">
-                      <div className="w-full">
-                        <span className="font-mono text-xs uppercase tracking-widest font-bold text-cyan mb-2 block">
-                          Watch Video
-                        </span>
-                        {video.title && (
-                          <h3 className="text-white font-bold text-lg leading-tight line-clamp-2">
-                            {video.title}
-                          </h3>
+                      <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm text-white text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border border-white/10 z-10">
+                        {isShort ? (
+                          <>
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                            Short
+                          </>
+                        ) : (
+                          <>
+                            <span className="w-1.5 h-1.5 rounded-full bg-cyan"></span>
+                            Video
+                          </>
                         )}
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
+
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="w-16 h-16 rounded-full bg-red-600/90 border-2 border-white/30 flex items-center justify-center backdrop-blur-sm drop-shadow-2xl">
+                          <Play className="w-7 h-7 text-white fill-white ml-1" />
+                        </div>
+                      </div>
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-dark-bg/95 via-dark-bg/40 to-transparent opacity-90 transition-opacity duration-300 flex items-end p-6">
+                        <div className="w-full">
+                          <span className="font-mono text-xs uppercase tracking-widest font-bold text-cyan mb-2 block">
+                            Watch {isShort ? 'Short' : 'Video'}
+                          </span>
+                          {video.title && (
+                            <h3 className="text-white font-bold text-lg leading-tight line-clamp-2">
+                              {video.title}
+                            </h3>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </>
             )}
             </motion.div>
@@ -381,39 +402,46 @@ export function Gallery() {
 
       {/* YouTube Video Modal */}
       <AnimatePresence>
-        {selectedVideo && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedVideo(null)}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 sm:p-6 md:p-12 backdrop-blur-md"
-          >
-            <button
-              onClick={(e) => { e.stopPropagation(); setSelectedVideo(null); }}
-              className="absolute top-6 right-6 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-[110]"
-            >
-              <X className="w-6 h-6" />
-            </button>
+        {selectedVideo && (() => {
+          const isShort = selectedVideo.video_id.startsWith('short-');
+          const actualVideoId = isShort ? selectedVideo.video_id.substring(6) : selectedVideo.video_id;
 
+          return (
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-5xl aspect-video rounded-xl overflow-hidden shadow-[0_0_50px_rgba(0,255,255,0.15)] border border-white/10"
-              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedVideo(null)}
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 sm:p-6 md:p-12 backdrop-blur-md"
             >
-              <iframe
-                src={`https://www.youtube.com/embed/${selectedVideo.video_id}?autoplay=1&mute=1`}
-                title={selectedVideo.title || "YouTube video player"}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+              <button
+                onClick={(e) => { e.stopPropagation(); setSelectedVideo(null); }}
+                className="absolute top-6 right-6 text-white hover:text-cyan transition-colors bg-charcoal/50 p-3 rounded-full border border-white/10 hover:border-cyan glow-cyan z-[110]"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                className={`relative w-full rounded-xl overflow-hidden shadow-[0_0_50px_rgba(0,255,255,0.15)] border border-white/10 ${
+                  isShort ? 'aspect-[9/16] max-w-md max-h-[85vh]' : 'aspect-video max-w-5xl'
+                }`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <iframe
+                  src={`https://www.youtube.com/embed/${actualVideoId}?autoplay=1&mute=1`}
+                  title={selectedVideo.title || "YouTube video player"}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
+          );
+        })()}
       </AnimatePresence>
     </div>
   );

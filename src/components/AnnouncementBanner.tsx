@@ -3,8 +3,12 @@ import { X, Play, Megaphone } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 
-// Helper to extract YouTube video ID
+// Helper to extract YouTube video ID (supports Shorts prefixed with short-)
 const getYoutubeId = (url: string) => {
+  const shortsMatch = url.match(/(?:shorts\/)([^&?/\s]+)/);
+  if (shortsMatch) {
+    return `short-${shortsMatch[1]}`;
+  }
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
   const match = url.match(regExp);
   return (match && match[2].length === 11) ? match[2] : null;
@@ -84,40 +88,47 @@ export function AnnouncementBanner() {
 
       {/* Video Modal */}
       <AnimatePresence>
-        {isVideoModalOpen && videoId && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 bg-black/90 backdrop-blur-sm"
-            onClick={() => setIsVideoModalOpen(false)}
-          >
-            <button
-              onClick={() => setIsVideoModalOpen(false)}
-              className="absolute top-6 right-6 p-2 bg-white/10 hover:bg-white/20 hover:text-cyan rounded-full transition-colors text-white z-50"
-              aria-label="Close video"
-            >
-              <X className="w-6 h-6" />
-            </button>
+        {isVideoModalOpen && videoId && (() => {
+          const isShort = videoId.startsWith('short-');
+          const actualVideoId = isShort ? videoId.substring(6) : videoId;
 
+          return (
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,255,255,0.15)] border border-white/10"
-              onClick={(e) => e.stopPropagation()} // Prevent clicks in modal from closing it
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 bg-black/90 backdrop-blur-sm"
+              onClick={() => setIsVideoModalOpen(false)}
             >
-              <iframe
-                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
-                title="Announcement Video"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full border-0"
-              />
+              <button
+                onClick={() => setIsVideoModalOpen(false)}
+                className="absolute top-6 right-6 p-2 bg-white/10 hover:bg-white/20 hover:text-cyan rounded-full transition-colors text-white z-50"
+                aria-label="Close video"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                className={`relative w-full bg-black rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,255,255,0.15)] border border-white/10 ${
+                  isShort ? 'aspect-[9/16] max-w-md max-h-[85vh]' : 'aspect-video max-w-5xl'
+                }`}
+                onClick={(e) => e.stopPropagation()} // Prevent clicks in modal from closing it
+              >
+                <iframe
+                  src={`https://www.youtube.com/embed/${actualVideoId}?autoplay=1&rel=0`}
+                  title="Announcement Video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full border-0"
+                />
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
+          );
+        })()}
       </AnimatePresence>
     </>
   );
