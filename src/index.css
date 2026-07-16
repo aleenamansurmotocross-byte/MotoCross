@@ -255,7 +255,7 @@ h1, h2, h3, h4, .display-text {
 .sponsor-track {
   display: flex;
   width: max-content;
-  animation: sponsor-scroll 20s linear infinite;
+  animation: sponsor-scroll 30s linear infinite;
 }
 
 
